@@ -178,7 +178,7 @@ export default function Report() {
 
                         {/* File Upload UI */}
                         <div>
-                          <FormLabel className="mb-3 block">Screenshot Evidence (Optional)</FormLabel>
+                          <p className="mb-3 block text-sm font-medium leading-none">Screenshot Evidence (Optional)</p>
                           <div className="border-2 border-dashed border-border rounded-xl p-6 text-center hover:bg-secondary/50 transition-colors relative">
                             <input 
                               type="file" 
