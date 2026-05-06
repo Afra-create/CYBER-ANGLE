@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, ShieldAlert, CreditCard, Briefcase, ChevronRight, Play, CheckCircle2, AlertTriangle, ArrowLeft, Trophy, RefreshCcw, HelpCircle } from "lucide-react";
+import { BookOpen, ShieldAlert, CreditCard, Briefcase, ChevronRight, Play, CheckCircle2, AlertTriangle, ArrowLeft, ArrowRight, Trophy, RefreshCcw, HelpCircle, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackButton } from "@/components/ui/back-button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -276,52 +277,62 @@ const QUIZ_DATA: Record<string, {
   }
 };
 
-const MODULES = [
-  {
-    id: "phishing",
-    title: "Phishing & Fake Links",
-    description: "Learn how scammers trick you into revealing sensitive information through deceptive messages.",
-    icon: ShieldAlert,
-    difficulty: "Beginner",
-    progress: 100,
-    color: "bg-blue-500",
-    completed: true,
-  },
-  {
-    id: "otp",
-    title: "OTP & Bank Frauds",
-    description: "Understand how bank impersonators steal your money using One Time Passwords.",
-    icon: CreditCard,
-    difficulty: "Intermediate",
-    progress: 40,
-    color: "bg-orange-500",
-    completed: false,
-  },
-  {
-    id: "job",
-    title: "Fake Job Scams",
-    description: "Identify fraudulent work-from-home offers and foreign job placements.",
-    icon: Briefcase,
-    difficulty: "Intermediate",
-    progress: 0,
-    color: "bg-purple-500",
-    completed: false,
-  },
-  {
-    id: "social",
-    title: "Social Media Impersonation",
-    description: "Protect yourself from cloned accounts asking for money in emergencies.",
-    icon: BookOpen,
-    difficulty: "Advanced",
-    progress: 0,
-    color: "bg-rose-500",
-    completed: false,
-  }
-];
-
 export default function Learn() {
+  const { t } = useTranslation();
+
+  const MODULES = [
+    {
+      id: "phishing",
+      title: t('learn.mod_phish_t'),
+      description: t('learn.mod_phish_d'),
+      icon: ShieldAlert,
+      difficulty: "Beginner",
+      progress: 100,
+      color: "bg-blue-500",
+      completed: true,
+      videoUrl: "https://www.youtube.com/embed/Y7zNIGMELQ4?si=rX1X-uE2yE-1",
+      videoTitle: "What is Phishing and How to Avoid It"
+    },
+    {
+      id: "otp",
+      title: t('learn.mod_otp_t'),
+      description: t('learn.mod_otp_d'),
+      icon: CreditCard,
+      difficulty: "Intermediate",
+      progress: 40,
+      color: "bg-orange-500",
+      completed: false,
+      videoUrl: "https://www.youtube.com/embed/n3HsswD4pD0?si=pX1X",
+      videoTitle: "How to stay safe from OTP Frauds"
+    },
+    {
+      id: "job",
+      title: t('learn.mod_job_t'),
+      description: t('learn.mod_job_d'),
+      icon: Briefcase,
+      difficulty: "Intermediate",
+      progress: 0,
+      color: "bg-purple-500",
+      completed: false,
+      videoUrl: "https://www.youtube.com/embed/hO-g-q251L8?si=qX1X",
+      videoTitle: "Beware of Fake Job Offers"
+    },
+    {
+      id: "social",
+      title: t('learn.mod_soc_t'),
+      description: t('learn.mod_soc_d'),
+      icon: BookOpen,
+      difficulty: "Advanced",
+      progress: 0,
+      color: "bg-rose-500",
+      completed: false,
+      videoUrl: "https://www.youtube.com/embed/8v_g-Zf_Kyo?si=sX1X",
+      videoTitle: "Social Media Impersonation Scams"
+    }
+  ];
   const [selectedModule, setSelectedModule] = useState<string | null>(null);
   const [showQuiz, setShowQuiz] = useState(false);
+  const [showVideoLesson, setShowVideoLesson] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [score, setScore] = useState(0);
@@ -368,6 +379,7 @@ export default function Learn() {
   const closeModule = () => {
     setSelectedModule(null);
     setShowQuiz(false);
+    setShowVideoLesson(false);
     resetQuiz();
   };
 
@@ -387,8 +399,8 @@ export default function Learn() {
               transition={{ duration: 0.3 }}
             >
               <div className="mb-8">
-                <h1 className="text-3xl font-bold mb-2 tracking-tight">Learning Modules</h1>
-                <p className="text-muted-foreground">Master cyber defense strategies through interactive lessons.</p>
+                <h1 className="text-3xl font-bold mb-2 tracking-tight">{t('learn.title')}</h1>
+                <p className="text-muted-foreground">{t('learn.subtitle')}</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -415,14 +427,14 @@ export default function Learn() {
                       </CardHeader>
                       <CardContent>
                         <div className="flex justify-between text-sm font-medium mb-2">
-                          <span className="text-muted-foreground">Progress</span>
+                          <span className="text-muted-foreground">{t('learn.progress')}</span>
                           <span className="text-primary">{mod.progress}%</span>
                         </div>
                         <Progress value={mod.progress} className="h-2 bg-primary/10" />
                       </CardContent>
                       <CardFooter className="pt-2">
                         <Button variant="ghost" className="w-full justify-between rounded-xl hover:bg-primary/10 hover:text-primary group/btn">
-                          {mod.completed ? "Review Module" : (mod.progress > 0 ? "Continue Learning" : "Start Module")}
+                          {mod.completed ? t('learn.review') : (mod.progress > 0 ? t('learn.continue') : t('learn.start'))}
                           <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                         </Button>
                       </CardFooter>
@@ -445,7 +457,7 @@ export default function Learn() {
                 className="mb-6 gap-2 text-muted-foreground hover:text-foreground rounded-xl"
               >
                 <ArrowLeft className="w-4 h-4" />
-                Back to Modules
+                {t('learn.back')}
               </Button>
 
               <AnimatePresence mode="wait">
@@ -463,7 +475,7 @@ export default function Learn() {
                           <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center border border-primary/20">
                             <HelpCircle className="w-5 h-5 text-primary" />
                           </div>
-                          <span className="font-bold text-xl tracking-tight">{activeModule?.title} Quiz</span>
+                          <span className="font-bold text-xl tracking-tight">{activeModule?.title} {t('learn.quiz_title')}</span>
                         </div>
                         {!quizFinished && (
                           <Badge variant="outline" className="font-mono text-primary border-primary/30 px-3 py-1">
@@ -614,6 +626,28 @@ export default function Learn() {
                       )}
                     </Card>
                   </motion.div>
+                ) : showVideoLesson ? (
+                  <motion.div
+                    key="video"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className="w-full aspect-[16/10] max-h-[80vh] rounded-[2.5rem] overflow-hidden border border-border/50 shadow-2xl relative bg-black/90 flex flex-col"
+                  >
+                    <div className="absolute top-4 right-4 z-10 flex gap-2">
+                       <Button variant="secondary" className="rounded-xl bg-black/50 hover:bg-black/80 text-white backdrop-blur-md border border-white/20 px-4 py-2 flex items-center gap-2" onClick={() => setShowVideoLesson(false)}>
+                         <X className="w-5 h-5" />
+                         <span className="font-bold">{t('learn.close_lesson')}</span>
+                       </Button>
+                    </div>
+                    <iframe 
+                      src={activeModule?.videoUrl || `/video/?module=${activeModule?.id}`} 
+                      title={activeModule?.videoTitle || "Interactive Video Lesson"}
+                      className="w-full flex-1 border-0 bg-black"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </motion.div>
                 ) : (
                   <div className="bg-card/40 backdrop-blur-xl border border-border/50 rounded-[2.5rem] overflow-hidden shadow-2xl">
                     <div className="bg-primary/5 p-10 md:p-14 border-b border-border/50 relative overflow-hidden">
@@ -631,7 +665,7 @@ export default function Learn() {
                               <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20">
                                 <BookOpen className="w-5 h-5 text-primary" />
                               </div>
-                              The Anatomy of the Scam
+                              {t('learn.anatomy')}
                             </h3>
                             <div className="prose prose-invert max-w-none text-muted-foreground text-lg leading-relaxed">
                               <p className="mb-4">Scammers create a sense of <span className="text-foreground font-bold">urgency or fear</span> to make you act quickly without thinking. They might pretend to be from your bank, the police, or a trusted company.</p>
@@ -683,9 +717,12 @@ export default function Learn() {
                               <CardTitle className="text-lg font-black tracking-tight uppercase">Module Actions</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4 pt-6">
-                              <Button className="w-full gap-3 h-14 text-lg font-bold rounded-2xl shadow-xl shadow-primary/20">
+                              <Button 
+                                className="w-full gap-3 h-14 text-lg font-bold rounded-2xl shadow-xl shadow-primary/20"
+                                onClick={() => setShowVideoLesson(true)}
+                              >
                                 <Play className="w-6 h-6 fill-current" />
-                                Interactive Lesson
+                                {t('learn.interactive')}
                               </Button>
                               <Button 
                                 variant="outline" 

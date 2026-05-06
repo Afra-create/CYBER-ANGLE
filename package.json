@@ -7,6 +7,11 @@
     "portal:build": "pnpm --filter @workspace/cyber-safety-hub build && pnpm --filter @workspace/cyber-surakshit-video build",
     "portal:start": "node backend/server.js",
     "portal": "pnpm run portal:build && pnpm run portal:start",
+    "start": "cd artifacts/api-server && cross-env PORT=5000 pnpm run build && pnpm run start",
+    "dev": "concurrently \"pnpm run dev:frontend\" \"pnpm run dev:video\" \"pnpm run dev:api\"",
+    "dev:frontend": "cd artifacts/cyber-safety-hub && cross-env PORT=3000 BASE_PATH='/' pnpm run dev",
+    "dev:video": "cd artifacts/cyber-surakshit-video && cross-env PORT=3001 BASE_PATH='/video/' pnpm run dev",
+    "dev:api": "cd artifacts/api-server && cross-env PORT=5000 pnpm run dev",
     "build": "pnpm run typecheck && pnpm -r --if-present run build",
     "typecheck:libs": "tsc --build",
     "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
@@ -16,6 +21,8 @@
     "@rollup/rollup-win32-x64-msvc": "^4.60.3",
     "@tailwindcss/oxide-win32-x64-msvc": "^4.2.4",
     "lightningcss-win32-x64-msvc": "^1.32.0",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
     "prettier": "^3.8.1",
     "typescript": "~5.9.2"
   },

@@ -9,34 +9,7 @@ import CyberMatrixHero from "@/components/ui/cyber-matrix-hero";
 import { Button } from "@/components/ui/button";
 import { CyberShieldAnimation } from "@/components/animation/CyberShieldAnimation";
 import { Badge } from "@/components/ui/badge";
-
-/* ─── data ─────────────────────────────────────────────────── */
-const STATS = [
-  { icon: Users,         value: "142K+", label: "Citizens Trained",           color: "text-primary" },
-  { icon: AlertTriangle, value: "8.5K",  label: "Scams Reported",             color: "text-destructive" },
-  { icon: Lock,          value: "₹12M+", label: "Losses Prevented",           color: "text-green-400" },
-];
-
-const FEATURES = [
-  {
-    icon: BookOpen, title: "Interactive Modules",
-    desc: "Bite-sized lessons on phishing, OTP frauds & social engineering — tailored to the Indian context.",
-    points: ["Recognize red flags instantly", "Understand scammer psychology", "Secure your digital identity"],
-    href: "/learn", cta: "Explore Modules",
-  },
-  {
-    icon: Shield, title: "Live Scam Trainer",
-    desc: "Test your instincts against simulated scam messages, emails & calls in a safe environment.",
-    points: ["Simulated WhatsApp/SMS scams", "Instant feedback & explanations", "Progress tracking & badges"],
-    href: "/trainer", cta: "Try the Trainer",
-  },
-  {
-    icon: Zap, title: "Threat Dashboard",
-    desc: "Track emerging scam trends in your region and stay one step ahead with live community data.",
-    points: ["Real-time scam trend charts", "XP & achievement system", "Personalised safety tips"],
-    href: "/dashboard", cta: "Open Dashboard",
-  },
-];
+import { useTranslation } from "react-i18next";
 
 /* ─── tiny helpers ──────────────────────────────────────────── */
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -61,8 +34,36 @@ function CornerMark({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) {
   );
 }
 
-/* ─── page ──────────────────────────────────────────────────── */
 export default function Home() {
+  const { t } = useTranslation();
+
+  const STATS = [
+    { icon: Users,         value: "142K+", label: t('home.stats_citizens'),           color: "text-primary" },
+    { icon: AlertTriangle, value: "8.5K",  label: t('home.stats_scams'),             color: "text-destructive" },
+    { icon: Lock,          value: "₹12M+", label: t('home.stats_losses'),           color: "text-green-400" },
+  ];
+
+  const FEATURES = [
+    {
+      icon: BookOpen, title: t('home.feat1_title'),
+      desc: t('home.feat1_desc'),
+      points: [t('home.feat1_p1'), t('home.feat1_p2'), t('home.feat1_p3')],
+      href: "/learn", cta: t('home.feat1_cta'),
+    },
+    {
+      icon: Shield, title: t('home.feat2_title'),
+      desc: t('home.feat2_desc'),
+      points: [t('home.feat2_p1'), t('home.feat2_p2'), t('home.feat2_p3')],
+      href: "/trainer", cta: t('home.feat2_cta'),
+    },
+    {
+      icon: Zap, title: t('home.feat3_title'),
+      desc: t('home.feat3_desc'),
+      points: [t('home.feat3_p1'), t('home.feat3_p2'), t('home.feat3_p3')],
+      href: "/dashboard", cta: t('home.feat3_cta'),
+    },
+  ];
+
   return (
     <div className="w-full flex-1 bg-background">
 
@@ -132,7 +133,7 @@ export default function Home() {
             style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(18px)" }}
           >
             <Shield className="w-3.5 h-3.5" />
-            National Cyber Awareness Initiative
+            {t('home.hero_badge')}
           </motion.div>
         </motion.div>
 
@@ -154,7 +155,7 @@ export default function Home() {
             variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.3, ease } } }}
             className="text-base md:text-lg text-white/65 max-w-md text-center leading-relaxed"
           >
-            Empowering Indian families to recognize, resist, and report digital threats.
+            {t('home.hero_subtitle')}
           </motion.p>
 
           {/* CTA pill */}
@@ -165,13 +166,13 @@ export default function Home() {
           >
             <Link href="/signup">
               <Button size="lg" className="h-11 px-7 text-sm font-bold rounded-xl shadow-lg shadow-primary/20 group">
-                Start Learning
+                {t('home.cta_start')}
                 <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </Button>
             </Link>
             <Link href="/report">
               <Button size="lg" variant="ghost" className="h-11 px-7 text-sm font-bold rounded-xl text-white/70 hover:text-white hover:bg-white/10">
-                Report a Scam
+                {t('home.cta_report')}
                 <AlertTriangle className="ml-2 w-4 h-4 text-destructive" />
               </Button>
             </Link>
@@ -211,13 +212,13 @@ export default function Home() {
               transition={{ duration: 0.6, ease }}
             >
               <Badge className="mb-4 bg-primary/10 text-primary hover:bg-primary/20 border-primary/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
-                Premium Content
+                {t('home.showcase_badge')}
               </Badge>
               <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
-                Cinematic <span className="text-primary">Safety Training</span>
+                {t('home.showcase_title_1')} <span className="text-primary">{t('home.showcase_title_2')}</span>
               </h2>
               <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
-                Experience our high-production-value video modules designed to educate every Indian household about digital safety through immersive storytelling and cinematic visuals.
+                {t('home.showcase_desc')}
               </p>
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-4 p-4 rounded-2xl bg-card border border-border group hover:border-primary/30 transition-all cursor-default shadow-sm">
@@ -225,8 +226,8 @@ export default function Home() {
                     <Shield className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm">Real-world Scenarios</h4>
-                    <p className="text-xs text-muted-foreground">See how scams happen in everyday life.</p>
+                    <h4 className="font-bold text-sm">{t('home.showcase_feat1_t')}</h4>
+                    <p className="text-xs text-muted-foreground">{t('home.showcase_feat1_d')}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4 p-4 rounded-2xl bg-card border border-border group hover:border-primary/30 transition-all cursor-default shadow-sm">
@@ -234,14 +235,14 @@ export default function Home() {
                     <Zap className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm">Interactive Experience</h4>
-                    <p className="text-xs text-muted-foreground">Control the narrative and learn at your own pace.</p>
+                    <h4 className="font-bold text-sm">{t('home.showcase_feat2_t')}</h4>
+                    <p className="text-xs text-muted-foreground">{t('home.showcase_feat2_d')}</p>
                   </div>
                 </div>
               </div>
               <Link href="/cyber-surakshit-video/">
                 <Button size="lg" className="mt-10 h-14 px-8 text-base font-bold rounded-2xl shadow-xl shadow-primary/20 group">
-                  Watch Live Demo
+                  {t('home.showcase_cta')}
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
@@ -270,8 +271,8 @@ export default function Home() {
                 <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl glass text-white">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-widest opacity-70 mb-1">Coming Next</p>
-                      <h4 className="font-bold text-sm">Module 1: The Phishing Trap</h4>
+                      <p className="text-[10px] font-bold uppercase tracking-widest opacity-70 mb-1">{t('home.showcase_coming')}</p>
+                      <h4 className="font-bold text-sm">{t('home.showcase_mod1')}</h4>
                     </div>
                     <Badge variant="outline" className="text-white border-white/30 px-3 py-1 text-[10px]">
                       12:45
@@ -297,11 +298,11 @@ export default function Home() {
             transition={{ duration: 0.3, ease }}
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-bold uppercase tracking-[0.15em] mb-5 border border-primary/20">
-              What you get
+              {t('home.features_badge')}
             </div>
-            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Your Defense Arsenal</h2>
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">{t('home.features_title')}</h2>
             <p className="text-muted-foreground max-w-lg mx-auto text-base md:text-lg leading-relaxed">
-              Master the tools and knowledge needed to protect yourself and your family.
+              {t('home.features_subtitle')}
             </p>
           </motion.div>
 

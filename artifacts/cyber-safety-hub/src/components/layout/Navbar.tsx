@@ -19,28 +19,26 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 
 export function Navbar() {
   const [location] = useLocation();
   const { theme, setTheme } = useTheme();
-  const [lang, setLang] = useState<"EN" | "HI">("EN");
+  const { t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
-  const toggleLang = () => {
-    setLang(lang === "EN" ? "HI" : "EN");
-  };
-
   const navLinks = [
-    { href: "/learn", label: "Learn", icon: BookOpen },
-    { href: "/trainer", label: "Trainer", icon: Gamepad2 },
-    { href: "/scanner", label: "Scanner", icon: Search },
-    { href: "/cyber-surakshit-video/", label: "Videos", icon: Gamepad2, external: true },
-    { href: "/report", label: "Report", icon: AlertTriangle },
-    { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { href: "/learn", label: t('nav.learn'), icon: BookOpen },
+    { href: "/trainer", label: t('nav.trainer'), icon: Gamepad2 },
+    { href: "/scanner", label: t('nav.scanner'), icon: Search },
+    { href: "/cyber-surakshit-video", label: t('nav.learn'), icon: Gamepad2, external: true },
+    { href: "/report", label: t('nav.report'), icon: AlertTriangle },
+    { href: "/dashboard", label: t('nav.dashboard'), icon: LayoutDashboard },
   ];
 
   return (
@@ -105,15 +103,11 @@ export function Navbar() {
           <div className="hidden sm:flex items-center gap-2">
             <Link href="/signup">
               <Button size="sm" variant="outline" className="font-semibold">
-                Sign Up
+                {t('nav.signup')}
               </Button>
             </Link>
             
-            <Button variant="ghost" size="icon" onClick={toggleLang} title="Toggle Language">
-              <Globe className="w-4 h-4" />
-              <span className="sr-only">Toggle Language</span>
-              <span className="absolute text-[10px] font-bold bottom-1 right-1">{lang}</span>
-            </Button>
+            <LanguageSwitcher />
             
             <Button variant="ghost" size="icon" onClick={toggleTheme} title="Toggle Theme">
               {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -136,9 +130,9 @@ export function Navbar() {
               <div className="p-4 bg-secondary/50 rounded-xl border border-border/50 mb-6">
                 <div className="flex items-center justify-between mb-2">
                   <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">
-                    Defender Level
+                    {t('nav.defender_level')}
                   </Badge>
-                  <span className="text-sm font-bold text-primary">240 XP</span>
+                  <span className="text-sm font-bold text-primary">240 {t('nav.xp')}</span>
                 </div>
                 <Progress value={48} className="h-2" />
               </div>
@@ -172,13 +166,10 @@ export function Navbar() {
 
               <div className="mt-auto flex flex-col gap-3">
                 <div className="flex gap-2">
-                  <Button variant="outline" className="flex-1" onClick={toggleLang}>
-                    <Globe className="w-4 h-4 mr-2" />
-                    {lang === "EN" ? "Hindi" : "English"}
-                  </Button>
+                  <LanguageSwitcher />
                   <Button variant="outline" className="flex-1" onClick={toggleTheme}>
                     {theme === "dark" ? <Sun className="w-4 h-4 mr-2" /> : <Moon className="w-4 h-4 mr-2" />}
-                    {theme === "dark" ? "Light" : "Dark"}
+                    {theme === "dark" ? t('nav.theme_light') : t('nav.theme_dark')}
                   </Button>
                 </div>
               </div>
