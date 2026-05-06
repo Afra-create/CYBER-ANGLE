@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Shield, AlertCircle, CheckCircle2, Info, RefreshCcw, Send, User } from "lucide-react";
+import { Shield, AlertCircle, CheckCircle2, Info, RefreshCcw, Send, User, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
