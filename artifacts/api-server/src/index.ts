@@ -31,7 +31,7 @@ const videoPath = path.resolve(__dirname, "../../cyber-surakshit-video/dist/publ
 app.use("/cyber-surakshit-video", express.static(videoPath));
 
 // Fallback for SPA routing (frontend)
-app.get("*", (req, res) => {
+app.get(/^(?!\/api|\/cyber-surakshit-video).*$/, (req, res) => {
   res.sendFile(path.join(frontendPath, "index.html"));
 });
 
