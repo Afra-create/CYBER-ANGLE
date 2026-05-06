@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Shield, AlertCircle, CheckCircle2, Info, RefreshCcw, Send, User, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BackButton } from "@/components/ui/back-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -82,6 +83,7 @@ export default function Trainer() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <BackButton />
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-bold mb-2">Scam Awareness Trainer</h1>

@@ -5,6 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertTriangle, Upload, ShieldCheck, FileText, CheckCircle2, ChevronRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BackButton } from "@/components/ui/back-button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -80,6 +81,7 @@ export default function Report() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <BackButton />
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2 text-destructive flex items-center gap-3">
           <AlertTriangle className="w-8 h-8" />

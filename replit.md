@@ -46,7 +46,6 @@ A cyber safety awareness platform with a full-featured web app for learning, sca
 - **Scam Trainer** (`/trainer`): Interactive fake message identification
 - **Reporting System** (`/report`): Incident submission form
 - **Dashboard** (`/dashboard`): Charts (Recharts), XP, tips
-- **Upgrade to Pro** (`/upgrade`): Free vs Pro tier comparison
 - Animated Video (/cyber-surakshit-video/): 13.2s cinematic loop with Indian neighborhood, threat icons, blue shield wave, "Har Ghar Cyber Surakshit" reveal
 
 ## User preferences

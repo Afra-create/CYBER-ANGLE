@@ -5,6 +5,7 @@ import {
   Shield, AlertTriangle, BookOpen, ChevronRight,
   CheckCircle2, Lock, Users, Zap, ArrowRight,
 } from "lucide-react";
+import CyberMatrixHero from "@/components/ui/cyber-matrix-hero";
 import { Button } from "@/components/ui/button";
 
 /* ─── data ─────────────────────────────────────────────────── */
@@ -165,7 +166,7 @@ export default function Home() {
             className="flex flex-col sm:flex-row items-center gap-2.5 p-2 rounded-2xl"
             style={{ background: "rgba(0,0,0,0.52)", backdropFilter: "blur(28px)", border: "1px solid rgba(255,255,255,0.09)" }}
           >
-            <Link href="/learn">
+            <Link href="/signup">
               <Button size="lg" className="h-11 px-7 text-sm font-bold rounded-xl shadow-lg shadow-primary/20 group">
                 Start Learning
                 <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-0.5 transition-transform" />

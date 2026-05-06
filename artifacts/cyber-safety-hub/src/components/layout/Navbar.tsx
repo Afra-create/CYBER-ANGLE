@@ -91,10 +91,9 @@ export function Navbar() {
           </div>
 
           <div className="hidden sm:flex items-center gap-2">
-            <Link href="/upgrade">
-              <Button size="sm" variant="default" className="gap-1.5 shadow-primary/20 shadow-lg">
-                <Star className="w-4 h-4 fill-current" />
-                Upgrade
+            <Link href="/signup">
+              <Button size="sm" variant="outline" className="font-semibold">
+                Sign Up
               </Button>
             </Link>
             
@@ -151,12 +150,6 @@ export function Navbar() {
               </div>
 
               <div className="mt-auto flex flex-col gap-3">
-                <Link href="/upgrade" onClick={() => setMobileMenuOpen(false)}>
-                  <Button className="w-full gap-2">
-                    <Star className="w-4 h-4 fill-current" />
-                    Upgrade to Pro
-                  </Button>
-                </Link>
                 <div className="flex gap-2">
                   <Button variant="outline" className="flex-1" onClick={toggleLang}>
                     <Globe className="w-4 h-4 mr-2" />
