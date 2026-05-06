@@ -11,6 +11,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { apiClient } from "@/lib/api";
+import { useToast } from "@/hooks/use-toast";
 
 const reportSchema = z.object({
   category: z.string().min(1, "Please select a category"),
@@ -25,6 +27,7 @@ export default function Report() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const { toast } = useToast();
 
   const form = useForm<ReportFormValues>({
     resolver: zodResolver(reportSchema),
@@ -36,13 +39,31 @@ export default function Report() {
     }
   });
 
-  const onSubmit = (data: ReportFormValues) => {
+  const onSubmit = async (data: ReportFormValues) => {
     setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      await apiClient.submitReport({
+        type: data.category,
+        content: data.description, // Always use description as content
+        description: data.suspiciousLink || data.description, // Use link if available, otherwise description
+        userEmail: undefined // Anonymous reporting
+      });
+      
       setIsSuccess(true);
-    }, 1500);
+      toast({
+        title: "Report Submitted",
+        description: "Thank you for helping keep the community safe!",
+      });
+    } catch (error) {
+      console.error('Report submission failed:', error);
+      toast({
+        title: "Submission Failed",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const resetForm = () => {

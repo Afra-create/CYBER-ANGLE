@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberSafe Hub - Frontend</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background: #5568d3;
+        }
+        
+        button:active {
+            transform: scale(0.98);
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            display: none;
+        }
+        
+        .result.show {
+            display: block;
+        }
+        
+        .result-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .result-content {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .threat-high {
+            background: #fee;
+            border-left: 4px solid #e33;
+        }
+        
+        .threat-medium {
+            background: #ffd;
+            border-left: 4px solid #fd8;
+        }
+        
+        .threat-low {
+            background: #efe;
+            border-left: 4px solid #3e3;
+        }
+        
+        .status {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin-top: 15px;
+        }
+        
+        .status.connecting {
+            color: #667eea;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .tab {
+            padding: 12px 0;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #666;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛡️ CyberSafe Hub</h1>
+        <p class="subtitle">Your AI-Powered Cybersecurity Assistant</p>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('scan')">Scan</button>
+            <button class="tab" onclick="switchTab('chat')">Chat</button>
+            <button class="tab" onclick="switchTab('status')">Status</button>
+        </div>
+        
+        <!-- Scan Tab -->
+        <div id="scan" class="tab-content active">
+            <div class="form-group">
+                <label for="scanText">Enter message or URL to scan:</label>
+                <textarea id="scanText" placeholder="Paste suspicious message or URL here..." rows="4"></textarea>
+            </div>
+            <button onclick="scanMessage()">Analyze</button>
+        </div>
+        
+        <!-- Chat Tab -->
+        <div id="chat" class="tab-content">
+            <div class="form-group">
+                <label for="chatMessage">Ask a cybersecurity question:</label>
+                <textarea id="chatMessage" placeholder="Ask anything about cybersecurity..." rows="4"></textarea>
+            </div>
+            <button onclick="sendChat()">Send</button>
+        </div>
+        
+        <!-- Status Tab -->
+        <div id="status" class="tab-content">
+            <div class="form-group">
+                <button onclick="checkHealth()">Check Backend Status</button>
+            </div>
+            <div id="statusResult" class="result"></div>
+        </div>
+        
+        <div class="result" id="result">
+            <div class="result-title">Result:</div>
+            <div class="result-content" id="resultContent"></div>
+        </div>
+        
+        <div class="status" id="statusMsg"></div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+        
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Hide result
+            document.getElementById('result').classList.remove('show');
+        }
+        
+        function updateStatus(msg, type = 'normal') {
+            const statusEl = document.getElementById('statusMsg');
+            statusEl.textContent = msg;
+            statusEl.classList.toggle('connecting', type === 'connecting');
+        }
+        
+        async function scanMessage() {
+            const text = document.getElementById('scanText').value.trim();
+            if (!text) {
+                alert('Please enter a message or URL to scan');
+                return;
+            }
+            
+            updateStatus('Analyzing...', 'connecting');
+            
+            try {
+                const response = await fetch(`${API_URL}/api/scan`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text })
+                });
+                
+                if (!response.ok) throw new Error('Network response failed');
+                const data = await response.json();
+                
+                const resultDiv = document.getElementById('result');
+                const resultContent = document.getElementById('resultContent');
+                
+                resultContent.textContent = JSON.stringify(data, null, 2);
+                resultDiv.className = 'result show threat-' + (data.threatLevel ? data.threatLevel.toLowerCase() : 'low');
+                
+                updateStatus('Analysis complete');
+            } catch (error) {
+                alert('Error: ' + error.message);
+                updateStatus('Error during scan');
+            }
+        }
+        
+        async function sendChat() {
+            const message = document.getElementById('chatMessage').value.trim();
+            if (!message) {
+                alert('Please enter a message');
+                return;
+            }
+            
+            updateStatus('Thinking...', 'connecting');
+            
+            try {
+                const response = await fetch(`${API_URL}/api/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message, history: [] })
+                });
+                
+                if (!response.ok) throw new Error('Network response failed');
+                const data = await response.json();
+                
+                const resultDiv = document.getElementById('result');
+                const resultContent = document.getElementById('resultContent');
+                
+                resultContent.textContent = data.reply || JSON.stringify(data, null, 2);
+                resultDiv.className = 'result show';
+                
+                updateStatus('Response received');
+            } catch (error) {
+                alert('Error: ' + error.message);
+                updateStatus('Error during chat');
+            }
+        }
+        
+        async function checkHealth() {
+            updateStatus('Checking...', 'connecting');
+            
+            try {
+                const response = await fetch(`${API_URL}/api/health`);
+                if (!response.ok) throw new Error('Backend not responding');
+                const data = await response.json();
+                
+                document.getElementById('statusResult').innerHTML = 
+                    '<div style="background: #efe; border-left: 4px solid #3e3; padding: 15px; border-radius: 4px;">' +
+                    '<strong>✓ Backend is running!</strong><br>' +
+                    JSON.stringify(data, null, 2) +
+                    '</div>';
+                
+                updateStatus('Backend is online');
+            } catch (error) {
+                document.getElementById('statusResult').innerHTML = 
+                    '<div style="background: #fee; border-left: 4px solid #e33; padding: 15px; border-radius: 4px;">' +
+                    '<strong>✗ Backend not available</strong><br>' +
+                    'Make sure the backend is running on http://localhost:5000' +
+                    '</div>';
+                updateStatus('Backend is offline');
+            }
+        }
+    </script>
+</body>
+</html>

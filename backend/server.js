@@ -31,6 +31,43 @@ const mockAlerts = [
 
 const mockReports = [];
 
+const mockUserProgress = {
+  level: 'Defender',
+  xp: 240,
+  xpToNext: 500,
+  badges: ['First Report', 'Quick Learner'],
+  completedModules: ['phishing-basics', 'otp-fraud', 'social-engineering', 'password-security'],
+  streak: 7
+};
+
+const mockDashboardData = {
+  userStats: {
+    level: 'Defender',
+    xp: 240,
+    xpToNext: 500,
+    modulesCompleted: 4,
+    totalModules: 12,
+    reportsSubmitted: 3
+  },
+  scamTrends: [
+    { name: 'Mon', Phishing: 4000, OTP: 2400, Job: 2400 },
+    { name: 'Tue', Phishing: 3000, OTP: 1398, Job: 2210 },
+    { name: 'Wed', Phishing: 2000, OTP: 9800, Job: 2290 },
+    { name: 'Thu', Phishing: 2780, OTP: 3908, Job: 2000 },
+    { name: 'Fri', Phishing: 1890, OTP: 4800, Job: 2181 },
+    { name: 'Sat', Phishing: 2390, OTP: 3800, Job: 2500 },
+    { name: 'Sun', Phishing: 3490, OTP: 4300, Job: 2100 },
+  ],
+  reportsData: [
+    { month: 'Jan', reports: 120 },
+    { month: 'Feb', reports: 150 },
+    { month: 'Mar', reports: 220 },
+    { month: 'Apr', reports: 180 },
+    { month: 'May', reports: 290 },
+    { month: 'Jun', reports: 350 },
+  ]
+};
+
 // --- API ROUTES ---
 
 // Root route
@@ -45,6 +82,9 @@ app.get('/', (req, res) => {
       chat:    'POST /api/chat',
       report:  'POST /api/reports',
       alerts:  'GET  /api/alerts',
+      dashboard: 'GET  /api/dashboard',
+      userProgress: 'GET  /api/user/progress',
+      updateProgress: 'POST /api/user/progress',
     }
   });
 });
@@ -161,6 +201,56 @@ app.get('/api/alerts', async (req, res) => {
   } catch (error) {
     console.error('Alerts Error:', error);
     res.status(500).json({ error: 'Failed to fetch alerts.' });
+  }
+});
+
+// 6. Get Dashboard Data
+app.get('/api/dashboard', async (req, res) => {
+  try {
+    res.json(mockDashboardData);
+  } catch (error) {
+    console.error('Dashboard Error:', error);
+    res.status(500).json({ error: 'Failed to fetch dashboard data.' });
+  }
+});
+
+// 7. Get User Progress
+app.get('/api/user/progress', async (req, res) => {
+  try {
+    res.json(mockUserProgress);
+  } catch (error) {
+    console.error('User Progress Error:', error);
+    res.status(500).json({ error: 'Failed to fetch user progress.' });
+  }
+});
+
+// 8. Update User Progress
+app.post('/api/user/progress', async (req, res) => {
+  const { moduleId, xpGained } = req.body;
+  
+  if (!moduleId || typeof xpGained !== 'number') {
+    return res.status(400).json({ error: 'moduleId and xpGained are required.' });
+  }
+
+  try {
+    mockUserProgress.xp += xpGained;
+    
+    // Check for level up
+    let levelUp = false;
+    if (mockUserProgress.xp >= mockUserProgress.xpToNext) {
+      mockUserProgress.level = 'Expert';
+      mockUserProgress.xpToNext = 1000;
+      levelUp = true;
+    }
+    
+    res.json({ 
+      success: true, 
+      newXp: mockUserProgress.xp, 
+      newLevel: levelUp ? mockUserProgress.level : undefined 
+    });
+  } catch (error) {
+    console.error('Progress Update Error:', error);
+    res.status(500).json({ error: 'Failed to update progress.' });
   }
 });
 

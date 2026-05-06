@@ -9,6 +9,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
+import { apiClient } from "@/lib/api";
 
 const SCAM_TRENDS_DATA = [
   { name: 'Mon', Phishing: 4000, OTP: 2400, Job: 2400 },
@@ -30,6 +32,30 @@ const REPORTS_DATA = [
 ];
 
 export default function Dashboard() {
+  const { data: dashboardData, isLoading, error } = useQuery({
+    queryKey: ['dashboard'],
+    queryFn: () => apiClient.getDashboardData(),
+  });
+
+  if (isLoading) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+        <div className="text-center">Loading dashboard...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+        <div className="text-center text-destructive">Failed to load dashboard data</div>
+      </div>
+    );
+  }
+
+  const userStats = dashboardData?.userStats;
+  const scamTrends = dashboardData?.scamTrends || SCAM_TRENDS_DATA;
+  const reportsData = dashboardData?.reportsData || REPORTS_DATA;
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
@@ -53,7 +79,7 @@ export default function Dashboard() {
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">Your Level</p>
                 <h3 className="text-2xl font-bold text-primary flex items-center gap-2">
-                  <Shield className="w-6 h-6" /> Defender
+                  <Shield className="w-6 h-6" /> {userStats?.level || 'Citizen'}
                 </h3>
               </div>
               <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
@@ -62,10 +88,10 @@ export default function Dashboard() {
             </div>
             <div className="mt-4">
               <div className="flex justify-between text-xs font-medium mb-1.5">
-                <span>240 XP</span>
-                <span className="text-muted-foreground">500 XP to Expert</span>
+                <span>{userStats?.xp || 0} XP</span>
+                <span className="text-muted-foreground">{userStats?.xpToNext || 500} XP to Expert</span>
               </div>
-              <Progress value={48} className="h-2 bg-primary/20" />
+              <Progress value={userStats ? (userStats.xp / userStats.xpToNext) * 100 : 0} className="h-2 bg-primary/20" />
             </div>
           </CardContent>
         </Card>
@@ -77,7 +103,7 @@ export default function Dashboard() {
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Modules Completed</p>
-              <h3 className="text-2xl font-bold">4 / 12</h3>
+              <h3 className="text-2xl font-bold">{userStats?.modulesCompleted || 0} / {userStats?.totalModules || 12}</h3>
             </div>
           </CardContent>
         </Card>
@@ -89,7 +115,7 @@ export default function Dashboard() {
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Scams Reported</p>
-              <h3 className="text-2xl font-bold">3</h3>
+              <h3 className="text-2xl font-bold">{userStats?.reportsSubmitted || 0}</h3>
             </div>
           </CardContent>
         </Card>
@@ -120,7 +146,7 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent className="h-[300px] w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={SCAM_TRENDS_DATA} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <BarChart data={scamTrends} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
                   <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} />
                   <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} />
@@ -143,7 +169,7 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent className="h-[200px] w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={REPORTS_DATA} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <LineChart data={reportsData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
                   <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} />
                   <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} />
