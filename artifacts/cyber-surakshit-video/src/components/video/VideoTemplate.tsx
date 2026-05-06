@@ -8,10 +8,10 @@ import { Scene4 } from './video_scenes/Scene4';
 import { Scene5 } from './video_scenes/Scene5';
 
 export const SCENE_DURATIONS: Record<string, number> = {
-  open: 2500,
-  danger: 3000,
+  open: 2400,
+  danger: 2900,
   tension: 1000,
-  shield: 3500,
+  shield: 3400,
   resolve: 3500,
 };
 

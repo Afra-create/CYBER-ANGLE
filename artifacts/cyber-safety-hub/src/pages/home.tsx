@@ -48,7 +48,7 @@ function CornerMark({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) {
       className={`absolute ${vert} ${horiz} w-8 h-8 pointer-events-none`}
       initial={{ opacity: 0, scale: 0.6 }}
       animate={{ opacity: 0.35, scale: 1 }}
-      transition={{ duration: 0.6, delay: 0.6, ease }}
+      transition={{ duration: 0.3, delay: 0.2, ease }}
       style={{ transform: `rotate(${rotMap[pos]})` }}
     >
       <svg viewBox="0 0 32 32" fill="none" className="w-full h-full">
@@ -71,7 +71,7 @@ export default function Home() {
           className="absolute inset-0 z-0 pointer-events-none bg-black"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1.1, ease: "easeOut" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <iframe
             src="/cyber-surakshit-video/"
@@ -88,7 +88,7 @@ export default function Home() {
           className="absolute inset-0 z-10 pointer-events-none"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1.4, ease: "easeOut" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           style={{
             background:
               "linear-gradient(to bottom," +
@@ -108,7 +108,7 @@ export default function Home() {
             style={{ background: "linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.07) 30%, rgba(255,255,255,0.07) 70%, transparent 100%)" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, delay: 0.3, ease }}
+            transition={{ duration: 0.5, delay: 0.1, ease }}
           />
         ))}
 
@@ -117,59 +117,43 @@ export default function Home() {
           {(["tl","tr","bl","br"] as const).map(p => <CornerMark key={p} pos={p} />)}
         </div>
 
-        {/* ── TOP CONTENT — 0.5s delay ── */}
+        {/* ── TOP CONTENT — 0.15s delay ── */}
         <motion.div
           className="relative z-20 flex flex-col items-center text-center pt-24 md:pt-28 px-6"
           initial="hidden"
           animate="show"
           variants={{
             hidden: {},
-            show: { transition: { staggerChildren: 0.1, delayChildren: 0.5 } },
+            show: { transition: { staggerChildren: 0.05, delayChildren: 0.15 } },
           }}
         >
           {/* Badge */}
           <motion.div
-            variants={{ hidden: { opacity: 0, y: -12 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease } } }}
+            variants={{ hidden: { opacity: 0, y: -12 }, show: { opacity: 1, y: 0, transition: { duration: 0.3, ease } } }}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-7 text-primary border border-primary/25"
             style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(18px)" }}
           >
             <Shield className="w-3.5 h-3.5" />
             National Cyber Awareness Initiative
           </motion.div>
-
-          {/* Title */}
-          <motion.h1
-            variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.75, ease } } }}
-            className="text-6xl sm:text-7xl md:text-[96px] font-extrabold tracking-tight leading-[0.95] drop-shadow-2xl"
-          >
-            <span className="text-white">Think Before</span>
-            <br />
-            <span className="text-white">You </span>
-            <span
-              className="text-transparent bg-clip-text"
-              style={{ backgroundImage: "linear-gradient(135deg, hsl(var(--primary)), hsl(48,100%,70%), hsl(var(--primary)))" }}
-            >
-              Click
-            </span>
-          </motion.h1>
         </motion.div>
 
         {/* ── SPACER ── */}
         <div className="flex-1" />
 
-        {/* ── BOTTOM CONTENT — 0.65s delay ── */}
+        {/* ── BOTTOM CONTENT — 0.2s delay ── */}
         <motion.div
           className="relative z-20 flex flex-col items-center gap-5 pb-10 px-6"
           initial="hidden"
           animate="show"
           variants={{
             hidden: {},
-            show: { transition: { staggerChildren: 0.12, delayChildren: 0.65 } },
+            show: { transition: { staggerChildren: 0.06, delayChildren: 0.2 } },
           }}
         >
           {/* Sub-headline */}
           <motion.p
-            variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease } } }}
+            variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.3, ease } } }}
             className="text-base md:text-lg text-white/65 max-w-md text-center leading-relaxed"
           >
             Empowering Indian families to recognize, resist, and report digital threats.
@@ -177,7 +161,7 @@ export default function Home() {
 
           {/* CTA pill */}
           <motion.div
-            variants={{ hidden: { opacity: 0, y: 16, scale: 0.96 }, show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease } } }}
+            variants={{ hidden: { opacity: 0, y: 16, scale: 0.96 }, show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.3, ease } } }}
             className="flex flex-col sm:flex-row items-center gap-2.5 p-2 rounded-2xl"
             style={{ background: "rgba(0,0,0,0.52)", backdropFilter: "blur(28px)", border: "1px solid rgba(255,255,255,0.09)" }}
           >
@@ -197,7 +181,7 @@ export default function Home() {
 
           {/* Live stat chips */}
           <motion.div
-            variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.7, ease } } }}
+            variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.3, ease } } }}
             className="flex items-center gap-3 flex-wrap justify-center"
           >
             {STATS.map(({ icon: Icon, value, label, color }) => (
@@ -228,7 +212,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, ease }}
+            transition={{ duration: 0.3, ease }}
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-bold uppercase tracking-[0.15em] mb-5 border border-primary/20">
               What you get
@@ -248,7 +232,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.55, delay: i * 0.09, ease }}
+                transition={{ duration: 0.3, delay: i * 0.04, ease }}
               >
                 {/* hover glow */}
                 <div className="absolute -top-20 -right-20 w-48 h-48 rounded-full bg-primary/8 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />

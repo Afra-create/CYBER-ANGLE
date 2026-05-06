@@ -160,7 +160,7 @@ export default function Upgrade() {
             </div>
             <DialogTitle className="text-2xl text-center">Upgrade to Pro</DialogTitle>
             <DialogDescription className="text-center text-base">
-              You're about to unlock the full potential of Cyber Shield.
+              You're about to unlock the full potential of CyberAngel.
             </DialogDescription>
           </DialogHeader>
           <div className="bg-secondary/50 rounded-xl p-6 my-4 border border-border">

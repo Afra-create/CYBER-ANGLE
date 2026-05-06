@@ -49,7 +49,7 @@ export function Navbar() {
               <Shield className="w-6 h-6 text-primary" />
             </div>
             <span className="font-bold text-lg hidden sm:inline-block">
-              Cyber Shield
+              CyberAngel
             </span>
           </Link>
           

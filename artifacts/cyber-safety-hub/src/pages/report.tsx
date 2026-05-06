@@ -236,7 +236,7 @@ export default function Report() {
                 </div>
                 <h2 className="text-3xl font-bold mb-4">Report Submitted Safely</h2>
                 <p className="text-lg text-muted-foreground mb-8 max-w-md mx-auto">
-                  Thank you for contributing to Cyber Shield. Your report helps protect others from falling victim to similar scams.
+                  Thank you for contributing to CyberAngel. Your report helps protect others from falling victim to similar scams.
                 </p>
                 <div className="bg-secondary/50 rounded-xl p-4 inline-block mb-8 border border-border">
                   <p className="text-sm text-muted-foreground mb-1">Report Reference ID</p>
