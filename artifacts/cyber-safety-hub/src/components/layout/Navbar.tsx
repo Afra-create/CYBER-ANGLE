@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { 
   Shield, 
+  ShieldAlert,
   BookOpen, 
   Gamepad2, 
   AlertTriangle, 
@@ -35,7 +36,9 @@ export function Navbar() {
 
   const navLinks = [
     { href: "/learn", label: "Learn", icon: BookOpen },
+    { href: "/lessons", label: "Lessons", icon: Play },
     { href: "/trainer", label: "Trainer", icon: Gamepad2 },
+    { href: "/scam-detector", label: "Scam Detector", icon: ShieldAlert },
     { href: "/report", label: "Report", icon: AlertTriangle },
     { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   ];

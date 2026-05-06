@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import {
   Shield, AlertTriangle, BookOpen, ChevronRight,
-  CheckCircle2, Lock, Users, Zap, ArrowRight,
+  CheckCircle2, Lock, Users, Zap, ArrowRight, Search, Upload
 } from "lucide-react";
 import CyberMatrixHero from "@/components/ui/cyber-matrix-hero";
 import { Button } from "@/components/ui/button";
@@ -93,11 +93,11 @@ export default function Home() {
           style={{
             background:
               "linear-gradient(to bottom," +
-              "rgba(0,0,0,0.78) 0%," +
-              "rgba(0,0,0,0.12) 30%," +
-              "rgba(0,0,0,0.05) 55%," +
-              "rgba(0,0,0,0.70) 82%," +
-              "rgba(0,0,0,0.92) 100%)",
+              "rgba(15,10,30,0.85) 0%," +
+              "rgba(15,10,30,0.2) 30%," +
+              "rgba(15,10,30,0.1) 55%," +
+              "rgba(15,10,30,0.7) 82%," +
+              "rgba(15,10,30,0.95) 100%)",
           }}
         />
 
@@ -173,7 +173,7 @@ export default function Home() {
           <motion.div
             variants={{ hidden: { opacity: 0, y: 16, scale: 0.96 }, show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.3, ease } } }}
             className="flex flex-col sm:flex-row items-center gap-2.5 p-2 rounded-2xl"
-            style={{ background: "rgba(0,0,0,0.52)", backdropFilter: "blur(28px)", border: "1px solid rgba(255,255,255,0.09)" }}
+            style={{ background: "rgba(15,10,30,0.65)", backdropFilter: "blur(28px)", border: "1px solid rgba(255,255,255,0.12)", boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.4)" }}
           >
             <Link href="/signup">
               <Button size="lg" className="h-11 px-7 text-sm font-bold rounded-xl shadow-lg shadow-primary/20 group">
@@ -198,7 +198,7 @@ export default function Home() {
               <div
                 key={label}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs text-white/60"
-                style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.07)" }}
+                style={{ background: "rgba(120,50,255,0.1)", border: "1px solid rgba(255,255,255,0.08)", backdropFilter: "blur(12px)" }}
               >
                 <Icon className={`w-3.5 h-3.5 ${color}`} />
                 <span className="font-bold text-white/85">{value}</span>
@@ -273,6 +273,48 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
+
+          {/* AI Scam Detector Banner */}
+          <motion.div
+            className="mt-16 relative rounded-[32px] overflow-hidden p-8 md:p-12 glass border-primary/20"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease }}
+          >
+            <div className="relative z-10 flex flex-col md:flex-row items-center gap-8 md:gap-12">
+              <div className="flex-1 text-center md:text-left">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-primary text-[10px] font-bold uppercase tracking-wider mb-4 border border-primary/30">
+                  New Feature
+                </div>
+                <h3 className="text-3xl md:text-4xl font-extrabold mb-4 tracking-tight">AI Scam Detector</h3>
+                <p className="text-muted-foreground text-lg mb-8 max-w-xl">
+                  Not sure about a message you received? Upload a screenshot and our AI will analyze it for classic scam patterns and fraudulent intent.
+                </p>
+                <Link href="/scam-detector">
+                  <Button size="lg" className="rounded-xl px-8 font-bold h-12 shadow-xl shadow-primary/20 group">
+                    Scan a Message Now
+                    <Search className="ml-2 w-5 h-5 group-hover:scale-110 transition-transform" />
+                  </Button>
+                </Link>
+              </div>
+              <div className="w-full md:w-1/3 flex justify-center">
+                <div className="relative w-48 h-48 md:w-64 md:h-64">
+                  <motion.div 
+                    className="absolute inset-0 bg-primary/20 rounded-full blur-3xl"
+                    animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+                    transition={{ duration: 4, repeat: Infinity }}
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-32 h-32 md:w-44 md:h-44 rounded-[32px] bg-card border border-border shadow-2xl flex items-center justify-center relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent" />
+                      <Upload className="w-12 h-12 md:w-16 md:h-16 text-primary animate-bounce" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </div>

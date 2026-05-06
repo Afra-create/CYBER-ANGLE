@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, ShieldAlert, CreditCard, Briefcase, ChevronRight, Play, CheckCircle2, AlertTriangle, ArrowLeft, Trophy, RefreshCcw, HelpCircle } from "lucide-react";
+import { BookOpen, ShieldAlert, CreditCard, Briefcase, ChevronRight, Play, CheckCircle2, AlertTriangle, ArrowLeft, Trophy, RefreshCcw, HelpCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackButton } from "@/components/ui/back-button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -319,9 +319,17 @@ const MODULES = [
   }
 ];
 
+const MODULE_VIDEOS: Record<string, string> = {
+  phishing: "https://www.youtube.com/embed/Y7zNlEMDmI8", // What is Phishing?
+  otp: "https://www.youtube.com/embed/6iW7S8YI9I0",      // OTP Fraud Awareness
+  job: "https://www.youtube.com/embed/jZ_y9-pL_yM",      // Fake Job Scams
+  social: "https://www.youtube.com/embed/5-9C80_IAnI",   // Social Media Safety
+};
+
 export default function Learn() {
   const [selectedModule, setSelectedModule] = useState<string | null>(null);
   const [showQuiz, setShowQuiz] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [score, setScore] = useState(0);
@@ -330,6 +338,7 @@ export default function Learn() {
 
   const activeModule = MODULES.find(m => m.id === selectedModule);
   const quiz = selectedModule ? QUIZ_DATA[selectedModule] : null;
+  const videoUrl = selectedModule ? MODULE_VIDEOS[selectedModule] : null;
 
   const handleNextQuestion = () => {
     if (!quiz) return;
@@ -363,11 +372,18 @@ export default function Learn() {
   const startQuiz = () => {
     resetQuiz();
     setShowQuiz(true);
+    setShowVideo(false);
+  };
+
+  const startVideo = () => {
+    setShowVideo(true);
+    setShowQuiz(false);
   };
 
   const closeModule = () => {
     setSelectedModule(null);
     setShowQuiz(false);
+    setShowVideo(false);
     resetQuiz();
   };
 
@@ -449,7 +465,57 @@ export default function Learn() {
               </Button>
 
               <AnimatePresence mode="wait">
-                {showQuiz ? (
+                {showVideo ? (
+                  <motion.div
+                    key="video"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="max-w-4xl mx-auto"
+                  >
+                    <Card className="bg-card/40 backdrop-blur-xl border-primary/30 shadow-2xl overflow-hidden rounded-[2rem]">
+                      <div className="bg-primary/10 px-8 py-5 border-b border-primary/20 flex justify-between items-center">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center border border-primary/20">
+                            <Play className="w-5 h-5 text-primary fill-current" />
+                          </div>
+                          <span className="font-bold text-xl tracking-tight">{activeModule?.title} Lesson</span>
+                        </div>
+                        <Badge variant="outline" className="text-primary border-primary/30">Educational Video</Badge>
+                      </div>
+                      
+                      <CardContent className="p-0 aspect-video bg-black">
+                        {videoUrl ? (
+                          <iframe
+                            src={videoUrl}
+                            title={`${activeModule?.title} Video Lesson`}
+                            className="w-full h-full border-0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowFullScreen
+                          />
+                        ) : (
+                          <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground gap-4">
+                            <Loader2 className="w-12 h-12 animate-spin text-primary/40" />
+                            <p>Loading video content...</p>
+                          </div>
+                        )}
+                      </CardContent>
+                      
+                      <CardFooter className="bg-white/5 p-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div className="text-sm text-muted-foreground max-w-md">
+                          Watch this short video to understand how this scam works. You can take the quiz once you're ready.
+                        </div>
+                        <Button 
+                          onClick={startQuiz}
+                          className="w-full sm:w-auto px-10 h-12 text-base font-bold rounded-xl shadow-lg shadow-primary/20 group"
+                        >
+                          I'm Ready for the Quiz
+                          <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                  </motion.div>
+                ) : showQuiz ? (
                   <motion.div
                     key="quiz"
                     initial={{ opacity: 0, y: 10 }}
@@ -683,7 +749,10 @@ export default function Learn() {
                               <CardTitle className="text-lg font-black tracking-tight uppercase">Module Actions</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4 pt-6">
-                              <Button className="w-full gap-3 h-14 text-lg font-bold rounded-2xl shadow-xl shadow-primary/20">
+                              <Button 
+                                className="w-full gap-3 h-14 text-lg font-bold rounded-2xl shadow-xl shadow-primary/20"
+                                onClick={() => window.location.href = '/lessons'}
+                              >
                                 <Play className="w-6 h-6 fill-current" />
                                 Interactive Lesson
                               </Button>

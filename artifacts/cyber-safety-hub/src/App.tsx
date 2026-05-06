@@ -12,6 +12,8 @@ import Learn from "@/pages/learn";
 import Trainer from "@/pages/trainer";
 import Report from "@/pages/report";
 import Dashboard from "@/pages/dashboard";
+import ScamDetector from "@/pages/scam-detector";
+import Lessons from "@/pages/lessons";
 import Signup from "@/pages/signup";
 import NotFound from "@/pages/not-found";
 
@@ -26,6 +28,8 @@ function Router() {
         <Route path="/" component={Home} />
         <Route path="/learn" component={Learn} />
         <Route path="/trainer" component={Trainer} />
+        <Route path="/lessons" component={Lessons} />
+        <Route path="/scam-detector" component={ScamDetector} />
         <Route path="/report" component={Report} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/signup" component={Signup} />

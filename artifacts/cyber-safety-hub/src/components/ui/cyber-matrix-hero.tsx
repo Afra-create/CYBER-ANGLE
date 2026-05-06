@@ -135,8 +135,8 @@
                      
                      /* Use CSS variable for dynamic styling */ 
                      opacity: calc(0.05 + var(--intensity) * 0.5); 
-                     color: hsl(120, 100%, calc(30% + var(--intensity) * 40%)); 
-                     text-shadow: 0 0 calc(var(--intensity) * 8px) hsl(120, 100%, 50%); 
+                     color: hsl(267, 100%, calc(40% + var(--intensity) * 40%)); 
+                     text-shadow: 0 0 calc(var(--intensity) * 8px) hsl(322, 100%, 60%); 
                      transform: scale(calc(0.9 + var(--intensity) * 0.1)); 
                      transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease; 
                  } 
@@ -144,9 +144,9 @@
                      animation: glitch-anim 0.2s ease; 
                  } 
                  @keyframes glitch-anim { 
-                     0% { transform: scale(1); color: #0f0; } 
-                     50% { transform: scale(1.1); color: #fff; text-shadow: 0 0 5px #fff; } 
-                     100% { transform: scale(1); color: #0f0; } 
+                     0% { transform: scale(1); color: hsl(267, 100%, 70%); } 
+                     50% { transform: scale(1.1); color: hsl(322, 100%, 70%); text-shadow: 0 0 5px #fff; } 
+                     100% { transform: scale(1); color: hsl(267, 100%, 70%); } 
                  } 
              `}</style> 
          </div> 
