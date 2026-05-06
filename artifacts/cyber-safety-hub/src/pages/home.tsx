@@ -23,11 +23,11 @@ export default function Home() {
           />
         </div>
 
-        {/* Dark gradient overlay so text is readable */}
-        <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-b from-black/60 via-black/40 to-black/80" />
+        {/* Dark gradient overlay — strong only at top (navbar) and bottom (text area) */}
+        <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-b from-black/70 via-transparent to-black/90" />
 
-        {/* Hero content */}
-        <div className="relative z-20 container mx-auto px-4 pt-24 pb-32 md:pt-36 md:pb-48 text-center">
+        {/* Hero content — pinned to bottom so animation fills the visible area */}
+        <div className="relative z-20 w-full mt-auto container mx-auto px-4 pb-16 md:pb-20 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
