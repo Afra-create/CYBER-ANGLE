@@ -36,7 +36,6 @@ export function Navbar() {
   const navLinks = [
     { href: "/learn", label: t('nav.learn'), icon: BookOpen },
     { href: "/scanner", label: t('nav.scanner'), icon: Search },
-    { href: "/chat", label: t('nav.chat') || "AI Help", icon: MessageSquare },
     { href: "/trainer", label: t('nav.learninggame'), icon: Gamepad2 },
     { href: "/report", label: t('nav.report'), icon: AlertTriangle },
     { href: "/dashboard", label: t('nav.dashboard'), icon: LayoutDashboard },

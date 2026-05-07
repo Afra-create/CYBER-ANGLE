@@ -16,7 +16,6 @@ import Report from "@/pages/report";
 import Dashboard from "@/pages/dashboard";
 import Signup from "@/pages/signup";
 import Scanner from "@/pages/scanner";
-import Chat from "@/pages/chat";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -42,7 +41,6 @@ function Router() {
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/signup" component={Signup} />
           <Route path="/scanner" component={Scanner} />
-          <Route path="/chat" component={Chat} />
           <Route component={NotFound} />
         </Switch>
       </motion.div>
