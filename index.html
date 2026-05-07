@@ -2,131 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CyberAngel — Loading...</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta http-equiv="refresh" content="0; url=http://localhost:3000" />
+  <title>Redirecting...</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #0a0e1a;
-      color: #e0e6f0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-    .container {
-      text-align: center;
-      max-width: 520px;
-      padding: 40px 30px;
-      background: rgba(15, 20, 40, 0.85);
-      border: 1px solid rgba(56, 189, 248, 0.15);
-      border-radius: 20px;
-      backdrop-filter: blur(16px);
-      box-shadow: 0 0 60px rgba(56, 189, 248, 0.08), 0 0 120px rgba(139, 92, 246, 0.05);
-      animation: fadeIn 0.6s ease-out;
-    }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .shield { font-size: 56px; margin-bottom: 16px; animation: pulse 2s ease-in-out infinite; }
-    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
-    h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .tagline { color: #94a3b8; font-size: 14px; margin-bottom: 28px; }
-    .status-box {
-      padding: 18px 24px;
-      border-radius: 12px;
-      margin-bottom: 22px;
-      font-size: 15px;
-      font-weight: 500;
-      transition: all 0.4s;
-    }
-    .checking { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.2); color: #7dd3fc; }
-    .online { background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.25); color: #86efac; }
-    .offline { background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); color: #fca5a5; }
-    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(125, 211, 252, 0.3); border-top-color: #7dd3fc; border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 8px; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .btn {
-      display: inline-block; padding: 14px 32px; border-radius: 12px; font-weight: 600; font-size: 15px;
-      text-decoration: none; cursor: pointer; border: none; transition: all 0.3s;
-      background: linear-gradient(135deg, #38bdf8, #818cf8); color: #0f172a;
-      box-shadow: 0 4px 20px rgba(56, 189, 248, 0.25);
-    }
-    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(56, 189, 248, 0.35); }
-    .instructions {
-      margin-top: 24px; padding: 16px; border-radius: 10px;
-      background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(71, 85, 105, 0.3);
-      text-align: left; font-size: 13px; color: #94a3b8; line-height: 1.7;
-      display: none;
-    }
-    .instructions code {
-      background: rgba(56, 189, 248, 0.1); color: #7dd3fc;
-      padding: 2px 8px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 12px;
-    }
-    .bg-glow {
-      position: fixed; width: 300px; height: 300px; border-radius: 50%; filter: blur(100px); opacity: 0.15; pointer-events: none;
-    }
-    .glow-1 { top: -80px; left: -80px; background: #38bdf8; }
-    .glow-2 { bottom: -80px; right: -80px; background: #818cf8; }
+    body { font-family: sans-serif; background: #0a0e1a; color: #e0e6f0; padding: 40px; text-align: center; }
   </style>
 </head>
 <body>
-  <div class="bg-glow glow-1"></div>
-  <div class="bg-glow glow-2"></div>
-  <div class="container">
-    <div class="shield">🛡️</div>
-    <h1>CyberAngel</h1>
-    <p class="tagline">AI-Powered Cyber Safety Portal for India</p>
-    <div id="status" class="status-box checking">
-      <span class="spinner"></span> Connecting to server...
-    </div>
-    <div id="action"></div>
-    <div id="instructions" class="instructions">
-      <strong style="color:#e0e6f0;">Quick Start:</strong><br><br>
-      1. Open a terminal in VS Code<br>
-      2. Run: <code>cd backend</code><br>
-      3. Run: <code>node server.js</code><br>
-      4. Then refresh this page
-    </div>
-  </div>
-
+  <p>Redirecting to CyberAngel server...</p>
   <script>
-    const SERVER_URL = 'http://localhost:3000';
-    const statusEl = document.getElementById('status');
-    const actionEl = document.getElementById('action');
-    const instructionsEl = document.getElementById('instructions');
-
-    async function checkServer() {
-      try {
-        const res = await fetch(SERVER_URL + '/api/health', { signal: AbortSignal.timeout(3000) });
-        if (!res.ok) throw new Error('Not OK');
-        const data = await res.json();
-
-        statusEl.className = 'status-box online';
-        statusEl.innerHTML = '✅ Server is running! Redirecting...';
-        actionEl.innerHTML = '';
-        instructionsEl.style.display = 'none';
-
-        setTimeout(() => { window.location.href = SERVER_URL; }, 1200);
-      } catch (e) {
-        statusEl.className = 'status-box offline';
-        statusEl.innerHTML = '⚠️ Backend server is not running';
-        actionEl.innerHTML = '<button class="btn" onclick="startRetry()">🔄 Retry Connection</button>';
-        instructionsEl.style.display = 'block';
-      }
-    }
-
-    function startRetry() {
-      statusEl.className = 'status-box checking';
-      statusEl.innerHTML = '<span class="spinner"></span> Connecting to server...';
-      actionEl.innerHTML = '';
-      instructionsEl.style.display = 'none';
-      checkServer();
-    }
-
-    // Check immediately
-    checkServer();
+    window.location.href = 'http://localhost:3000';
   </script>
 </body>
 </html>

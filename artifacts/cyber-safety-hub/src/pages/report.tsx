@@ -257,7 +257,7 @@ export default function Report() {
                 <div className="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <ShieldCheck className="w-12 h-12 text-green-500" />
                 </div>
-                <h2 className="text-3xl font-bold mb-4">Report Submitted Safely</h2>
+                <h2 className="text-3xl font-bold mb-4">Report Registered</h2>
                 <p className="text-lg text-muted-foreground mb-8 max-w-md mx-auto">
                   Thank you for contributing to CyberAngel. Your report helps protect others from falling victim to similar scams.
                 </p>
